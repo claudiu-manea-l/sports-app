@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SportsApp</string>
+
+    <string name="match_details_card_kick_off">Kick off: %s</string>
+    <string name="match_details_card_attendance">Attendance: %s</string>
+    <string name="match_details_card_referee">Referee: %s</string>
+</resources>
