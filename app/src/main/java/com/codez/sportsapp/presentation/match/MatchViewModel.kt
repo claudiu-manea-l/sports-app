@@ -21,10 +21,6 @@ class MatchViewModel @Inject constructor(
     private val _viewState = MutableStateFlow<MatchDetailsViewState>(MatchDetailsViewState.Loading)
     val viewState: StateFlow<MatchDetailsViewState> = _viewState
 
-    init {
-        loadMatchDetails(1,true)
-    }
-
     fun loadMatchDetails(matchId: Int, onlyGoals:Boolean) {
         _viewState.value = MatchDetailsViewState.Loading
         kotlin.runCatching {

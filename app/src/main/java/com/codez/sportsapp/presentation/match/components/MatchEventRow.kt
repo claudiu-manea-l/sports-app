@@ -33,7 +33,7 @@ fun MatchEventRow(
                 .weight(1f)
                 .wrapContentSize(Alignment.CenterEnd)
                 .padding(end = 8.dp),
-            textAlign = TextAlign.Start
+            textAlign = TextAlign.End
         )
         Text(
             text = matchEventsViewData.awayText,

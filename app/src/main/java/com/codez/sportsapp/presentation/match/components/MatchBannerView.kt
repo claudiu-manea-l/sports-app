@@ -98,7 +98,7 @@ fun TeamTitleText(
     Text(
         modifier = modifier,
         text = teamName.uppercase(),
-        style = MaterialTheme.typography.titleMedium.copy(
+        style = MaterialTheme.typography.titleLarge.copy(
             fontWeight = FontWeight.Bold
         )
     )
@@ -117,9 +117,13 @@ fun TeamScoreBoard(
             .background(
                 color = Color(0xFF000080),
                 shape = RoundedCornerShape(8.dp)
-
             )
-            .padding(12.dp),
+            .padding(
+                start = 16.dp,
+                end = 16.dp,
+                top = 12.dp,
+                bottom = 12.dp
+            ),
         verticalArrangement = Arrangement.Center
     ){
         Text(
@@ -128,6 +132,7 @@ fun TeamScoreBoard(
                 .align(Alignment.CenterHorizontally),
             text = currentScore,
             style = MaterialTheme.typography.titleLarge.copy(
+                fontSize = 25.sp,
                 color = Color.White
             ),
             textAlign = TextAlign.Center
@@ -135,7 +140,7 @@ fun TeamScoreBoard(
         Text(
             text = htSCore,
             style = MaterialTheme.typography.bodySmall.copy(
-                fontSize = 10.sp,
+                fontSize = 12.sp,
                 color = Color.White
             ),
             textAlign = TextAlign.Center

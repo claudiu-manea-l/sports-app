@@ -14,5 +14,6 @@ I have managed to find time to only tackle the first part of the "homework" the 
 
 Things missing, that I didn't get to due to lack of time.
 * Proper UseCase/Interactor wrapper using a Result class. To allow error propagation through the UseCase chains.
+* Extract the data, domain and presentation in to their own modules
 * UnitTests
 * Improvements around the Compose UI.

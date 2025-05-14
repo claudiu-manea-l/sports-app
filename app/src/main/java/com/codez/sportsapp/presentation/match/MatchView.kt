@@ -15,6 +15,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -34,23 +35,28 @@ import com.codez.sportsapp.presentation.match.viewdata.dummyMatch
 
 @Composable
 fun MatchView(
-    viewModel : MatchViewModel = hiltViewModel(),
-    matchId:Int
+    viewModel: MatchViewModel = hiltViewModel(),
+    matchId: Int
 ) {
-        val viewState by viewModel.viewState.collectAsState()
-        when (viewState) {
-            MatchDetailsViewState.Loading -> {
-                LoadingView()
-            }
+    LaunchedEffect(matchId) {
+        viewModel.loadMatchDetails(matchId, true)
+    }
 
-            MatchDetailsViewState.Error -> {
-                ErrorView()
-            }
+    val viewState by viewModel.viewState.collectAsState()
 
-            is MatchDetailsViewState.ViewState -> {
-                MatchDetailsCard((viewState as MatchDetailsViewState.ViewState).viewData)
-            }
+    when (viewState) {
+        MatchDetailsViewState.Loading -> {
+            LoadingView()
         }
+
+        MatchDetailsViewState.Error -> {
+            ErrorView()
+        }
+
+        is MatchDetailsViewState.ViewState -> {
+            MatchDetailsCard((viewState as MatchDetailsViewState.ViewState).viewData)
+        }
+    }
 }
 
 @Composable
@@ -65,7 +71,7 @@ fun MatchDetailsCard(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .align(Alignment.TopCenter)
-                .padding(8.dp),
+                .padding(12.dp),
             shape = RoundedCornerShape(8.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
             colors = CardDefaults.cardColors(containerColor = Color.White)
@@ -78,7 +84,7 @@ fun MatchDetailsCard(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 8.dp)
+                        .padding(top = 12.dp)
                 ) {
                     items(detailsViewData.events) { item ->
                         MatchEventRow(item)
@@ -92,6 +98,7 @@ fun MatchDetailsCard(
                         .background(Color.Gray)
                 )
                 MatchInfoView(
+                    modifier = Modifier.padding(bottom = 16.dp),
                     matchInfoViewData = detailsViewData.matchInfo
                 )
             }
@@ -101,7 +108,7 @@ fun MatchDetailsCard(
 
 
 @Composable
-@Preview
+@Preview(widthDp = 300)
 private fun MatchDetailsCardPreview() = MatchDetailsCard(
     dummyMatch()
 )

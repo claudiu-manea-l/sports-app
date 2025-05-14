@@ -27,11 +27,11 @@ fun dummyMatch() = MatchDetailsViewData(
 
 fun dummyEvent(isHomeEvent: Boolean = true) : MatchEventsViewData {
     val dummyText = buildAnnotatedString {
-        append("42'  ")
+        append("83'00  ")
         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-            append("Goal  ")
+            append("Penalty  ")
         }
-        append("Saka")
+        append("Mohamed")
     }
     val emptyString = buildAnnotatedString { append("") }
     return if (isHomeEvent) {
