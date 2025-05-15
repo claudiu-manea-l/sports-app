@@ -1,16 +1,11 @@
 package com.codez.sportsapp.domain.usecase
 
 import com.codez.sportsapp.domain.Match
-import com.codez.sportsapp.domain.MatchUpdates
 import com.codez.sportsapp.domain.stores.MatchDataStore
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds

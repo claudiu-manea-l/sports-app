@@ -11,8 +11,8 @@ data class FixtureDTO(
     @SerialName("ground") val ground: GroundDTO,
     @SerialName("status") val status: MatchStatusDTO,
     @SerialName("attendance") val attendance: Int?,
-    @SerialName("clock") val clock: ClockDTO,
-    @SerialName("goals") val matchEvents: List<EventDTO>,
+    @SerialName("clock") val clock: ClockDTO?,
+    @SerialName("goals") val matchEvents: List<EventDTO>?,
     @SerialName("id") val id: Int
 )
 
@@ -25,7 +25,7 @@ data class KickoffDTO(
 @Serializable
 data class TeamsDTO(
     @SerialName("team") val team: TeamDTO,
-    @SerialName("score") val score: Int
+    @SerialName("score") val score: Int?
 )
 
 @Serializable
@@ -69,7 +69,7 @@ data class EventDTO(
     @SerialName("personId") val playerId: Int?,
     @SerialName("assistId") val assistId: Int?,
     @SerialName("clock") val clock: ClockDTO,
-    @SerialName("score") val score: ScoreDTO,
+    @SerialName("score") val score: ScoreDTO?,
     @SerialName("type") val type: String,
     @SerialName("teamId") val teamId:Int?
 )

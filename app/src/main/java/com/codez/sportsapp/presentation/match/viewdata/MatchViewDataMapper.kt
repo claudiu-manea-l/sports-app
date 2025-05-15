@@ -15,11 +15,11 @@ fun Match.toViewData(): MatchDetailsViewData =
     MatchDetailsViewData(
         homeTeamInfoViewData = matchInfo.homeTeam.toViewData(
             current = matchInfo.matchDetails.score.home,
-            halfTime = matchInfo.matchDetails.halfTimeScore.home
+            halfTime = matchInfo.matchDetails.halfTimeScore?.home ?: 0
         ),
         awayTeamInfoViewData = matchInfo.awayTeam.toViewData(
             current = matchInfo.matchDetails.score.away,
-            halfTime = matchInfo.matchDetails.halfTimeScore.away
+            halfTime = matchInfo.matchDetails.halfTimeScore?.away ?: 0
         ),
         events = events.toViewData(homeTeamId = matchInfo.homeTeam.id),
         matchInfo = matchInfo.toViewData()

@@ -1,10 +1,15 @@
 package com.codez.sportsapp.domain
 
+data class Fixture(
+    val match:Match,
+    val type: MatchType
+)
+
 data class Match(
     val matchId:Int,
     val matchInfo: MatchInfo,
     val events:List<MatchEvent>,
-    val clock: Clock
+    val clock: Clock?
 )
 
 data class MatchUpdates(
@@ -34,7 +39,7 @@ data class MatchDetails(
     val kickoff:Kickoff,
     val location: Location,
     val score: Score,
-    val halfTimeScore: Score,
+    val halfTimeScore: Score?,
     val attendance: Int?,
     val referee: String?
 )
@@ -63,3 +68,9 @@ data class Clock(
 )
 
 data class TimeLabel(val value:String)
+
+sealed class MatchType {
+    data object Upcoming : MatchType()
+    data object InProgress : MatchType()
+    data object Completed : MatchType()
+}

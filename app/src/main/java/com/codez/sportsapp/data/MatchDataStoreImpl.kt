@@ -1,20 +1,23 @@
 package com.codez.sportsapp.data
 
 import com.codez.sportsapp.domain.Clock
+import com.codez.sportsapp.domain.Fixture
 import com.codez.sportsapp.domain.Kickoff
 import com.codez.sportsapp.domain.Location
 import com.codez.sportsapp.domain.Match
 import com.codez.sportsapp.domain.MatchDetails
 import com.codez.sportsapp.domain.MatchEvent
 import com.codez.sportsapp.domain.MatchInfo
+import com.codez.sportsapp.domain.MatchType
 import com.codez.sportsapp.domain.MatchUpdates
 import com.codez.sportsapp.domain.Score
 import com.codez.sportsapp.domain.Team
 import com.codez.sportsapp.domain.TimeLabel
+import com.codez.sportsapp.domain.stores.FixtureDataStore
 import com.codez.sportsapp.domain.stores.MatchDataStore
 import com.codez.sportsapp.domain.usecase.FailedToFetchMatchException
+import com.codez.sportsapp.presentation.fixture.viewdata.FixtureType
 import retrofit2.HttpException
-import retrofit2.Response
 import javax.inject.Inject
 
 private const val IMAGE_BASE_URL =
@@ -22,7 +25,7 @@ private const val IMAGE_BASE_URL =
 
 class RemoteDataStoreImpl @Inject constructor(
     private val serviceAPI: ServiceAPI
-) : MatchDataStore {
+) : MatchDataStore, FixtureDataStore {
 
     override suspend fun getMatch(id: Int): Match {
         return fetchMatchData().toMatch()
@@ -30,6 +33,14 @@ class RemoteDataStoreImpl @Inject constructor(
 
     override suspend fun getMatchUpdates(id: Int): MatchUpdates {
         return fetchMatchData().latestEvents()
+    }
+
+    override suspend fun getFixtures(): List<Fixture> {
+        try {
+            return serviceAPI.getFixtures().map { it.toDomainModel() }
+        } catch (e:HttpException){
+            throw FailedToFetchMatchException(cause = e)
+        }
     }
 
     private suspend fun fetchMatchData():MatchesResponse {
@@ -59,8 +70,8 @@ private fun MatchesResponse.extractMatchDetails(): MatchDetails {
         kickoff = kickoff.toDomainModel(),
         location = ground.toDomainModel(),
         score = Score(
-            away = teams.first().score,
-            home = teams.last().score
+            away = teams.first().score?:0,
+            home = teams.last().score?:0
         ),
         halfTimeScore = Score(
             home = halfTimeScore.home,
@@ -92,7 +103,7 @@ private fun EventDTO.toDomainModel(
 ): MatchEvent {
     return MatchEvent(
         clock = clock.toDomainModel(),
-        score = score.toDomainModel(),
+        score = score?.toDomainModel()?:Score(0,0),
         type = type,
         teamId = teamId,
         playerName = players.find { it.id == playerId }?.name?.first
@@ -132,3 +143,35 @@ private fun GroundDTO.toDomainModel(): Location =
         name = name,
         city = city
     )
+
+private fun FixtureDTO.toDomainModel() = Fixture(
+    match = Match(
+        matchId = id,
+        matchInfo = MatchInfo(
+            homeTeam = teams.last().team.toDomainModel(),
+            awayTeam = teams.first().team.toDomainModel(),
+            matchDetails = MatchDetails(
+                kickoff = kickoff.toDomainModel(),
+                location = ground.toDomainModel(),
+                score = Score(
+                    away = teams.first().score?:0,
+                    home = teams.last().score?:0
+                ),
+                halfTimeScore = null,
+                attendance = attendance,
+                referee = null
+            )
+        ),
+        events = listOf(),
+        clock = clock?.toDomainModel()
+    ),
+    type = status.toDomainModel()
+)
+
+private fun MatchStatusDTO.toDomainModel() : MatchType {
+    return when(this){
+        MatchStatusDTO.Upcoming -> MatchType.Upcoming
+        MatchStatusDTO.Live -> MatchType.InProgress
+        MatchStatusDTO.Completed -> MatchType.Completed
+    }
+}

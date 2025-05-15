@@ -8,7 +8,7 @@ interface ServiceAPI {
     suspend fun getMatchData(): MatchesResponse
 
     @GET("fixtures.json")
-    suspend fun getFixtures(): List<TeamDTO>
+    suspend fun getFixtures(): List<FixtureDTO>
 
 }
 

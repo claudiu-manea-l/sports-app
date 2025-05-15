@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -20,9 +19,9 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -142,5 +141,19 @@ private fun SportsAppNavBar(
                 .copy(Color.Black),
             modifier = Modifier.align(Alignment.Center)
         )
+    }
+}
+
+@Composable
+private fun DummyHomePage(
+    onNavigateToMatch: (Int) -> Unit
+) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Button(
+            modifier = Modifier.align(Alignment.Center),
+            onClick = { onNavigateToMatch(1) }
+        ) {
+            Text("Go to match")
+        }
     }
 }
